@@ -2,6 +2,7 @@ import axios from "axios";
 import queryString from "query-string";
 
 const axiosClient = axios.create({
+  // baseURL: "http://127.0.0.1:9123",
   baseURL: "https://dxm-be.onrender.com",
   paramsSerializer: (params) => queryString.stringify(params),
 });

@@ -60,14 +60,15 @@ import {
         config
       );
 
-      if(data.data === null){
-        dispatch({ type: LOGIN_FAIL, payload: data.data });
+      if(data.msg === "success"){
+        localStorage.setItem("token", data.data);
+        dispatch({ type: LOGIN_SUCCESS, payload: data });
         return
       }
 
-      console.log("data 1", data.data)
-      localStorage.setItem("token", data.data);
-      dispatch({ type: LOGIN_SUCCESS, payload: data });
+      console.log("login ",data.msg)
+      dispatch({ type: LOGIN_FAIL, payload: data.msg });
+
     } catch (error) {
       dispatch({ type: LOGIN_FAIL, payload: error.message });
     }
@@ -89,14 +90,23 @@ import {
     // body: JSON.stringify(values),
       // const config = { headers: { "Content-Type": "application/json" } };
   
-      const { data } = await axiosClient.post(
+      const data = await axiosClient.post(
         `/api/v1/register`,
         userData,
         config
       );
-      console.log("data register " + data)
+      console.log("data register " + data.data)
   
-      dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
+        if(data.msg === "success"){
+          dispatch({ type: REGISTER_USER_SUCCESS, payload: data.data });
+          return
+        }
+
+        dispatch({
+          type: REGISTER_USER_FAIL,
+          payload: data.msg,
+        });
+
     } catch (error) {
       console.log("abcx",error.message)
       dispatch({
@@ -123,7 +133,6 @@ import {
       console.log("load fai2ii")
 
       if(data.data === null){
-        console.log("load faiii")
         dispatch({ type: LOAD_USER_FAIL, payload: data.msg });
         return;
       }

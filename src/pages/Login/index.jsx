@@ -21,7 +21,7 @@ import {
 } from '@ant-design/pro-components';
 import { ConfigProvider } from 'antd';
 import viVN from 'antd/locale/vi_VN';
-import { Space, Tabs, message, theme } from 'antd';
+import { Space, Tabs, message, theme, Button, Divider, notification } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser, login, register } from '../../actions/userAction';
 import { useNavigate } from 'react-router-dom';
@@ -30,9 +30,8 @@ import { MetaData } from '../../components/Layout/MetaData';
 function Login() {
     const { token } = theme.useToken();
     const [loginType, setLoginType] = useState('account');
-    const [isRegister, setIsRegister] = useState(false); // State để quản lý form đăng ký
-    const { error, loading, isAuthenticated } = useSelector((state) => state.user);
-
+    const [isRegister, setIsRegister] = useState(false);
+    const { error, loading,isRegisterInfo, isAuthenticated } = useSelector((state) => state.user);
     const iconStyles = {
         marginInlineStart: '16px',
         color: setAlpha(token.colorTextBase, 0.2),
@@ -43,10 +42,12 @@ function Login() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [api, contextHolder] = notification.useNotification();
 
     const handleLoginSubmit = async (values) => {
         console.log('Login Form Data:', values);
         dispatch(login(values.username, values.password));
+
     };
 
     const handleRegisterSubmit = async (values) => {
@@ -55,19 +56,30 @@ function Login() {
     };
 
     useEffect(() => {
-        console.log("isAuthen1 ", isAuthenticated);
+        console.log("error ", error);
         if (error) {
-            // Xử lý lỗi
+            api.warning({
+                message: error,
+                placement: "bottomLeft",
+            });
+        }
+        console.log("isRegisterInfo ", isRegisterInfo);
+        if(isRegisterInfo){
+            api.success({
+                message: "Đăng ký thành công",
+                placement: "bottomLeft",
+            });
         }
         if (isAuthenticated) {
             dispatch(loadUser());
             navigate("/dashboard");
         }
-    }, [dispatch, error, isAuthenticated]);
+    }, [dispatch, error, isAuthenticated,isRegisterInfo]);
 
     return (
         <>
             <MetaData title="DXM - LOGIN"></MetaData>
+            {contextHolder}
             <ConfigProvider locale={viVN}>
 
                 <div>
@@ -80,7 +92,8 @@ function Login() {
                             onFinish={handleLoginSubmit}
                             submitter={{
                                 searchConfig: {
-                                    submitText: 'Đăng nhập',
+                                    submitText: loading ? 'Đang đăng nhập...' : 'Đăng nhập',
+                                    loading: loading, // Hiển thị loading state
                                 },
                             }}
                             actions={
@@ -298,9 +311,9 @@ function Login() {
                                     fieldProps={{
                                         format: 'DD/MM/YYYY',
                                     }}
-                                    rules={[
-                                        { required: true, message: 'Vui lòng chọn ngày sinh' },
-                                    ]}
+                                    // rules={[
+                                    //     { required: true, message: 'Vui lòng chọn ngày sinh' },
+                                    // ]}
                                 />
                                 <ProFormRadio.Group
                                     name="gender"
@@ -322,7 +335,7 @@ function Login() {
                                     placeholder="Nhập ngân sách"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Vui lòng nhập ngân sách',
                                         },
                                     ]}
