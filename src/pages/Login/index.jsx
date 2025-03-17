@@ -290,20 +290,20 @@ function Login() {
                                     ]}
                                 />
                                 {/* <ProFormSelect
-                name="role"
-                label="Vai trò"
-                placeholder="Chọn vai trò"
-                options={[
-                    { label: 'Người dùng', value: 'user' },
-                    { label: 'Quản trị viên', value: 'admin' },
-                ]}
-                rules={[
-                    {
-                        required: true,
-                        message: 'Vui lòng chọn vai trò',
-                    },
-                ]}
-            /> */}
+                                    name="role"
+                                    label="Vai trò"
+                                    placeholder="Chọn vai trò"
+                                    options={[
+                                        { label: 'Người dùng', value: 'user' },
+                                        { label: 'Quản trị viên', value: 'admin' },
+                                    ]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Vui lòng chọn vai trò',
+                                        },
+                                    ]}
+                                /> */}
                                 <ProFormDatePicker
                                     name="dateOfBirth"
                                     label="Ngày sinh"

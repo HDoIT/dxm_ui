@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import "./Sidebar.scss";
 import {
     DesktopOutlined,
-    FileOutlined,
+    LogoutOutlined,
     PieChartOutlined,
     TeamOutlined,
     UserOutlined,
+    FileOutlined,
     ToolFilled
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
@@ -31,7 +32,7 @@ const items = [
     getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '/team/team1'), getItem('Team 2', '/team/team2')]),
     getItem('Files', '/files', <FileOutlined />),
     getItem('Tools', '/tools', <ToolFilled />),
-    getItem('Logout', '', <FileOutlined />,'',''),
+    getItem('Logout', '', <LogoutOutlined />,'',''),
 ];
 const Sidebar = (props) => {
     const { collapsed,handleCollapse,handleNavigate } = props;

@@ -13,9 +13,6 @@ const DefaultLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleNavigate = (nav) => {
-        if (nav === "") {
-            dispatch(logout())
-        }
         navigate(nav)
     };
 

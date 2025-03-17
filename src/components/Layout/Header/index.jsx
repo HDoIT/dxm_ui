@@ -1,8 +1,9 @@
 import { Layout, theme, Avatar, Badge, Dropdown, Menu, Space, Typography } from 'antd';
 import { BellOutlined, UserOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { logout } from '../../../actions/userAction';
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -14,31 +15,36 @@ export const HeaderLayout = () => {
     } = theme.useToken();
 
     console.log("user ", user)
-    const menu = (
-        <Menu
-            items={[
-                {
-                    key: '1',
-                    label: 'Profile',
-                    icon: <UserOutlined />,
-                },
-                {
-                    key: '2',
-                    label: 'Settings',
-                    icon: <SettingOutlined />,
-                },
-                {
-                    key: '3',
-                    type: 'divider',
-                },
-                {
-                    key: '4',
-                    label: 'Logout',
-                    icon: <LogoutOutlined />,
-                },
-            ]}
-        />
-    );
+
+    const dispatch = useDispatch()
+
+    const handleLogout = () => {
+        console.log("abc")
+        dispatch(logout())
+    }
+
+    const menuItems = [
+        {
+            key: '1',
+            label: 'Profile',
+            icon: <UserOutlined />,
+        },
+        {
+            key: '2',
+            label: 'Settings',
+            icon: <SettingOutlined />,
+        },
+        {
+            key: '3',
+            type: 'divider',
+        },
+        {
+            key: '4',
+            label: 'Logout',
+            icon: <LogoutOutlined />,
+            onclick: handleLogout,
+        },
+    ];
 
     const location = useLocation()
 
@@ -67,7 +73,7 @@ export const HeaderLayout = () => {
 
                         <Text strong>{user.fullName}</Text>
 
-                        <Dropdown menu={menu} placement="bottomRight">
+                        <Dropdown menu={{ items: menuItems }} placement="bottomRight">
                             <Avatar size="large" style={{ cursor: 'pointer' }}>{user.fullName}</Avatar>
                         </Dropdown>
                     </Space>

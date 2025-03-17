@@ -99,17 +99,19 @@ const Tools = () => {
                         defaultValue={[]}
                         onChange={handleEmailChange}
                         options={optionss}
+                        disabled
                     />
                 </div>
+                <div style={{
+                        marginTop: 16,
+                    }}>(To) Get Data From :</div>
                 <div
                     style={{
                         display: 'flex',
                         justifyContent: 'space-between',
                         textAlign: 'center',
-                        marginTop: 16,
                     }}
                 >
-                    <p style={{ width: 200 }}>(To) Get Data From </p>
                     <Select
                         defaultValue="GoogleSheet"
                         style={{ width: 200 }}
@@ -124,19 +126,26 @@ const Tools = () => {
                         value={spreadsheetId}
                         onChange={(e) => setSpreadsheetId(e.target.value)}
                     />
-                </div>
-                <div style={{ marginTop: 16 }}>
                     <Input
                         placeholder="API Key..."
                         value={apiKey}
                         onChange={(e) => setApiKey(e.target.value)}
                     />
                 </div>
+                {/* <div style={{ marginTop: 16 }}>
+                    
+                </div> */}
                 <div style={{ marginTop: 16 }}>
-                    <Input
-                        placeholder="Range..."
-                        value={range}
-                        onChange={(e) => setRange(e.target.value)}
+                    <p style={{ width: 200 }}>Range </p>
+                    <Select
+                        defaultValue="Sheet1"
+                        style={{ width: 200 }}
+                        onChange={handleDataSourceChange}
+                        options={[
+                            { value: 'Sheet1', label: 'Đọc toàn bộ sheet1' },
+                            { value: 'Sheet1!A:A', label: 'Đọc toàn bộ cột A' },
+                            { value: 'Sheet1!1:1', label: 'Đọc toàn bộ hàng 1' },
+                        ]}
                     />
                 </div>
                 <div style={{ marginTop: 16 }}>
@@ -150,6 +159,7 @@ const Tools = () => {
                     theme="snow"
                     value={detail || ''}
                     onChange={(html) => setDetail(html)}
+                    placeholder='Content...'
                     style={{
                         marginBottom: '50px',
                         height: '50vh',
